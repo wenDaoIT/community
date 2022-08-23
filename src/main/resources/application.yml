@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+      idle-timeout: 30000
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: top.tom666.community.entity
+  configuration:
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+
