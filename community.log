@@ -1,0 +1,6 @@
+2022-08-24 16:59:10.721  INFO 90893 --- [main] t.tom666.community.community.MapperTest  : Starting MapperTest using Java 1.8.0_333 on yzwa0136.local with PID 90893 (started by zhaoxiaohui in /Users/zhaoxiaohui/IdeaProjects/community)
+2022-08-24 16:59:10.724  INFO 90893 --- [main] t.tom666.community.community.MapperTest  : No active profile set, falling back to 1 default profile: "default"
+2022-08-24 16:59:15.373  INFO 90893 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-08-24 16:59:16.508  INFO 90893 --- [main] t.tom666.community.community.MapperTest  : Started MapperTest in 7.302 seconds (JVM running for 10.339)
+2022-08-24 16:59:17.307  INFO 90893 --- [main] t.tom666.community.community.MapperTest  : infolog
+2022-08-24 16:59:17.308 ERROR 90893 --- [main] t.tom666.community.community.MapperTest  : errorlog

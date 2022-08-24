@@ -2,10 +2,10 @@ package top.tom666.community.community;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import top.tom666.community.dao.DiscussPostMapper;
 import top.tom666.community.dao.UserMapper;
@@ -25,6 +25,8 @@ public class MapperTest {
     private UserMapper userMapper;
     @Autowired
     private DiscussPostMapper discussPostMapper;
+    private static final Logger logger = LoggerFactory.getLogger(MapperTest.class);
+
     @Test
     public void selectByidTest(){
         User user=userMapper.selectById(1);
@@ -40,5 +42,13 @@ public class MapperTest {
         int row = discussPostMapper.selectDiscussPostRows(0);
         System.out.println(row);
     }
+    @Test
+    public void testLogger(){
+        System.out.println(logger.getName());
+        logger.debug("debuglog");
+        logger.info("infolog");
+        logger.error("errorlog");
+    }
+
 
 }
