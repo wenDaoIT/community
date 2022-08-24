@@ -1,5 +1,6 @@
 package top.tom666.community.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import top.tom666.community.entity.User;
 
@@ -8,7 +9,7 @@ import top.tom666.community.entity.User;
  * @date： 2022-08-23
  */
 @Repository
-//@Mapper
+@Mapper
 public interface UserMapper {
     User selectById(int id);
 

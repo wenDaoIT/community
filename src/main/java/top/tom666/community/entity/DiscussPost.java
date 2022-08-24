@@ -12,7 +12,7 @@ import java.util.Date;
 public class DiscussPost {
     private Long id;
 
-    private Long userId;
+    private Integer userId;
 
     private String title;
 
