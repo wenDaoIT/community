@@ -10,6 +10,13 @@ spring:
       idle-timeout: 30000
   thymeleaf:
     cache: false
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 1362449059@qq.com
+    protocol: smtps
+    password: qcqkfmplzxkyhjeh
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: top.tom666.community.entity
@@ -23,7 +30,11 @@ server:
     context-path: /community
 logging:
   level:
-    root: debug
+    root: info
   file:
     name: community.log
     path: classpath:logs
+
+community:
+  path:
+    domain: http://localhost:8081

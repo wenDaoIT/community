@@ -6,7 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import top.tom666.community.CommunityApplication;
 import top.tom666.community.dao.DiscussPostMapper;
 import top.tom666.community.dao.UserMapper;
 import top.tom666.community.entity.DiscussPost;
@@ -20,6 +23,7 @@ import java.util.List;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@ContextConfiguration(classes = CommunityApplication.class)
 public class MapperTest {
     @Autowired
     private UserMapper userMapper;
