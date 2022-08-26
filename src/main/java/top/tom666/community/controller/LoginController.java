@@ -1,17 +1,20 @@
 package top.tom666.community.controller;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import top.tom666.community.entity.User;
 import top.tom666.community.service.UserService;
 import top.tom666.community.util.CommunityUtils;
 import top.tom666.community.util.Constant;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -65,5 +68,32 @@ public class LoginController implements Constant {
     public String getLoginPage(){
         return "/site/login";
     }
+
+    @GetMapping("/path/set")
+    @ResponseBody
+    public String setCookie(HttpServletResponse response){
+        Cookie cookie = new Cookie("code",CommunityUtils.generateUUID());
+        cookie.setPath("/community/student");
+        //默认存放在浏览器中，如果设置了过期时间，会存放在硬盘中
+        cookie.setMaxAge(60 * 10);
+        response.addCookie(cookie);
+        return  "set cookie";
+    }
+
+
+    @GetMapping("/session/set")
+    public String setSession(HttpSession httpSession){
+        httpSession.setAttribute("name",200);
+        httpSession.setAttribute("msg","session");
+        return "set session";
+    }
+
+    @GetMapping("/session/get")
+    public String getSession(HttpSession httpSession){
+        System.out.println(httpSession.getAttribute("name"));
+        System.out.println(httpSession.getId());
+        return httpSession.getId();
+    }
+
 
 }
