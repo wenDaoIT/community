@@ -2,9 +2,12 @@ package top.tom666.community.controller;
 
 import com.google.code.kaptcha.Producer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +41,10 @@ public class LoginController implements Constant {
 
     @Autowired
     private Producer producer;
+
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
+
 
     @GetMapping("/register")
     public String getRegisterPage(){
@@ -126,6 +133,40 @@ public class LoginController implements Constant {
             log.error("响应验证码失败",e.getMessage());
         }
     }
+
+    @PostMapping("/login")
+    public String login(Model model,String username,
+                        String password,String code,HttpSession httpSession,HttpServletResponse response){
+            String kaptcha = (String) httpSession.getAttribute("kaptcha");
+
+        if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equals(code)){
+            model.addAttribute("codeMsg","验证码错误");
+            return  "/site/login";
+        }
+
+        Map<String , Object> map = userService.login(username,password);
+        if (map.containsKey("ticket")){
+            Cookie cookie = new Cookie("ticket",map.get("ticket").toString());
+            cookie.setPath(contextPath);
+            cookie.setMaxAge(1000 * 60 *10);
+            response.addCookie(cookie);
+            return "redirect:/index";
+        }else {
+            model.addAttribute("usernameMsg",map.get("usernameMsg"));
+            model.addAttribute("passwordMsg",map.get("passwordMsg"));
+            return "/site/login";
+        }
+
+    }
+
+    @GetMapping("/logout")
+    public String logout(@CookieValue("ticket") String ticket){
+
+        userService.logout(ticket);
+        return "redirect:/login";
+    }
+
+
 
 
 }

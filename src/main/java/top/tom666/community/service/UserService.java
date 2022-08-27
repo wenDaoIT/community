@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.Thymeleaf;
 import org.thymeleaf.context.Context;
+import top.tom666.community.dao.LoginTicketMapper;
 import top.tom666.community.dao.UserMapper;
+import top.tom666.community.entity.LoginTicket;
 import top.tom666.community.entity.User;
 import top.tom666.community.util.CommunityUtils;
 import top.tom666.community.util.Constant;
@@ -29,6 +31,8 @@ public class UserService implements Constant {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
@@ -43,6 +47,10 @@ public class UserService implements Constant {
         return userMapper.selectById(userId);
     }
 
+    /**注册功能
+     * @param user 用户输入的信息
+     * @return
+     */
     public Map<String, Object> register(User user){
         Map<String,Object> result = new HashMap<>();
         if (user == null){
@@ -106,5 +114,46 @@ public class UserService implements Constant {
         }
         return ACTIVATION_FAIL;
 
+    }
+
+    public Map<String,Object> login(String name,String password){
+        Map<String,Object> objectMap = new HashMap<>();
+
+        if (name ==null){
+            objectMap.put("usernameMsg","账号不能为空");
+            return objectMap;
+        }
+        if(password == null){
+            objectMap.put("passwordMsg","密码不能为空");
+            return objectMap;
+        }
+        User user = userMapper.selectByUsername(name);
+        if (user ==null){
+            objectMap.put("usernameMsg","该账号不存在");
+            return objectMap;
+        }
+        if (user.getStatus() == 0){
+            objectMap.put("usernameMsg","该账号未激活");
+            return objectMap;
+        }
+        //验证密码
+        password = CommunityUtils.md5(password + user.getId());
+        if (!user.getPassword().equals(password)){
+            objectMap.put("passswordMsg","密码不正确");
+            return objectMap;
+        }
+
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(user.getId().intValue());
+        loginTicket.setTicket(CommunityUtils.generateUUID());
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 *5));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+        objectMap.put("ticket",loginTicket.getTicket());
+        return objectMap;
+    }
+
+    public void logout(String ticket) {
+        loginTicketMapper.updateStatus(ticket,1);
     }
 }

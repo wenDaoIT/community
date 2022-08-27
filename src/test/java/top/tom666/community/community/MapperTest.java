@@ -11,10 +11,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import top.tom666.community.CommunityApplication;
 import top.tom666.community.dao.DiscussPostMapper;
+import top.tom666.community.dao.LoginTicketMapper;
 import top.tom666.community.dao.UserMapper;
 import top.tom666.community.entity.DiscussPost;
+import top.tom666.community.entity.LoginTicket;
 import top.tom666.community.entity.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +32,8 @@ public class MapperTest {
     private UserMapper userMapper;
     @Autowired
     private DiscussPostMapper discussPostMapper;
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
     private static final Logger logger = LoggerFactory.getLogger(MapperTest.class);
 
     @Test
@@ -52,6 +57,16 @@ public class MapperTest {
         logger.debug("debuglog");
         logger.info("infolog");
         logger.error("errorlog");
+    }
+
+    @Test
+    public void testInsertToken(){
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(10);
+        loginTicket.setStatus(1);
+        loginTicket.setTicket("2112131");
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 *10));
+        System.out.println(loginTicketMapper.insertLoginTicket(loginTicket));
     }
 
 
