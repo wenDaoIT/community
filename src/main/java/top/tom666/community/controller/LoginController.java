@@ -1,5 +1,7 @@
 package top.tom666.community.controller;
 
+import com.google.code.kaptcha.Producer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,14 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.tom666.community.config.KaptchaConfig;
 import top.tom666.community.entity.User;
 import top.tom666.community.service.UserService;
 import top.tom666.community.util.CommunityUtils;
 import top.tom666.community.util.Constant;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
 
 /**
@@ -23,9 +31,13 @@ import java.util.Map;
  */
 
 @Controller
+@Slf4j
 public class LoginController implements Constant {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private Producer producer;
 
     @GetMapping("/register")
     public String getRegisterPage(){
@@ -93,6 +105,26 @@ public class LoginController implements Constant {
         System.out.println(httpSession.getAttribute("name"));
         System.out.println(httpSession.getId());
         return httpSession.getId();
+    }
+
+    /**
+     * @param response
+     * @param httpSession 验证码属于敏感数据，跨请求
+     */
+    @GetMapping("/kaptcha")
+    public void getKaptcha(HttpServletResponse response,HttpSession httpSession){
+        //生成验证码
+        String text = producer.createText();
+        BufferedImage image = producer.createImage(text);
+
+        httpSession.setAttribute("kaptcha",text);
+        response.setContentType("image/png");
+        try {
+            OutputStream outputStream = response.getOutputStream();
+            ImageIO.write(image,"png",outputStream);
+        } catch (IOException e) {
+            log.error("响应验证码失败",e.getMessage());
+        }
     }
 
 
