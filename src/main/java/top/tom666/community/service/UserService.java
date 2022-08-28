@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.Thymeleaf;
 import org.thymeleaf.context.Context;
 import top.tom666.community.dao.LoginTicketMapper;
 import top.tom666.community.dao.UserMapper;
@@ -155,5 +154,12 @@ public class UserService implements Constant {
 
     public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket,1);
+    }
+
+
+    public LoginTicket findLoginTicket(String ticket){
+
+        return loginTicketMapper.selectByTicket(ticket);
+
     }
 }
