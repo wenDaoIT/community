@@ -43,7 +43,7 @@ public class AlphaInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.debug("preHandle:",handler.toString());
         System.out.println("prehandle");
-        return false;
+        return true;
     }
 
     /**

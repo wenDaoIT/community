@@ -158,7 +158,6 @@ public class UserService implements Constant {
 
 
     public LoginTicket findLoginTicket(String ticket){
-
         return loginTicketMapper.selectByTicket(ticket);
 
     }

@@ -18,9 +18,9 @@ public class CookieUtil {
         if (cookie != null){
             for (Cookie cookie1:
                     cookie) {
-                String cookie1Value = cookie1.getValue();
-                if (cookie1Value.equals(name)){
-                    return cookie1Value;
+//                String cookie1Value = cookie1.getValue();
+                if (cookie1.getName().equals(name)){
+                    return cookie1.getValue();
                 }
             }
         }
