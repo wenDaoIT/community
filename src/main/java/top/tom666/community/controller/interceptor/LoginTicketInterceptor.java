@@ -1,5 +1,6 @@
 package top.tom666.community.controller.interceptor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,6 +20,7 @@ import java.util.Date;
  * @date： 2022-08-28
  */
 @Component
+@Slf4j
 public class LoginTicketInterceptor implements HandlerInterceptor {
     @Autowired
     private UserService userService;
@@ -39,7 +41,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
                 holder.setUser(user);
             }
         }
-        System.out.println("loginINter");
+        log.info("preHandle被调用");
         return true;
     }
 
@@ -50,10 +52,12 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
         if (user != null && modelAndView != null){
             modelAndView.addObject("loginUser",user);
         }
+        log.info("posthandle被调用");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        log.info("afterCompletion被调用，当前线程结束，清除线程池数据");
         holder.clearUser();
     }
 }
