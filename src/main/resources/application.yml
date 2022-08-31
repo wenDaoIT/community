@@ -15,7 +15,6 @@ spring:
     port: 465
     username: 1362449059@qq.com
     protocol: smtps
-    password: qcqkfmplzxkyhjeh
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -38,3 +37,4 @@ server:
 community:
   path:
     domain: http://localhost:8081
+    upload: /Users/zhaoxiaohui/data/upload

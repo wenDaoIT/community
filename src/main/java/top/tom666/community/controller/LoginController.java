@@ -12,14 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.tom666.community.config.KaptchaConfig;
 import top.tom666.community.entity.User;
 import top.tom666.community.service.UserService;
 import top.tom666.community.util.CommunityUtils;
 import top.tom666.community.util.Constant;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -33,8 +31,8 @@ import java.util.Map;
  * @date： 2022-08-25
  */
 
-@Controller
 @Slf4j
+@Controller
 public class LoginController implements Constant {
     @Autowired
     private UserService userService;
@@ -51,6 +49,7 @@ public class LoginController implements Constant {
 
         return "/site/register";
     }
+
     @PostMapping("/register")
     public String register(Model model, User user){
         Map<String,Object> map = userService.register(user);

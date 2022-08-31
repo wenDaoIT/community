@@ -159,6 +159,9 @@ public class UserService implements Constant {
 
     public LoginTicket findLoginTicket(String ticket){
         return loginTicketMapper.selectByTicket(ticket);
+    }
 
+    public int updateHeader(int userId , String headerUrl){
+        return userMapper.updateHeaderUrl(userId,headerUrl);
     }
 }
