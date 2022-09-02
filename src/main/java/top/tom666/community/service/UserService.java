@@ -143,7 +143,7 @@ public class UserService implements Constant {
         }
 
         LoginTicket loginTicket = new LoginTicket();
-        loginTicket.setUserId(user.getId().intValue());
+        loginTicket.setUserId(user.getId());
         loginTicket.setTicket(CommunityUtils.generateUUID());
         loginTicket.setStatus(0);
         loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 *5));

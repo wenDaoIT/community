@@ -6,7 +6,7 @@ import java.util.Date;
  * @date： 2022-08-23
  */
 public class User {
-    private Long id;
+    private Integer id;
     private String username;
     private String password;
     private String salt;
@@ -17,11 +17,11 @@ public class User {
     private String headerUrl;
     private Date createTime;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
