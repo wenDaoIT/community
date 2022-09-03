@@ -45,7 +45,7 @@ public class SensitiveFilter {
     }
 
     /**将字符加入
-     * @param s
+     * @param
      */
     private void addkeyWord(String keword){
         TrieNode tempNode = rootNode;
