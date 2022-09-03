@@ -26,5 +26,5 @@ public class SensitiveTest {
 //        String result = sensitiveFilter.filter("这里可以色色，可以吸毒，我是sb，哈哈哈！！fabc");
         String result = sensitiveFilter.filter("fabcf");
         System.out.println(result);
-    }
+     }
 }

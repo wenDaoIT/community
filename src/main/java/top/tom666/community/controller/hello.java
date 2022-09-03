@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import top.tom666.community.util.CommunityUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,5 +94,14 @@ public class hello {
         return code;
     }
 
+
+    @PostMapping("/ajax")
+    @ResponseBody
+    public String testAjax(String name,int age){
+        System.out.println(name);
+        System.out.println(age);
+        return CommunityUtils.getJSONString(200,"ok");
+
+    }
 
 }
