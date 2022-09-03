@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 import top.tom666.community.dao.DiscussPostMapper;
 import top.tom666.community.entity.DiscussPost;
-import top.tom666.community.util.CommunityUtils;
 import top.tom666.community.util.SensitiveFilter;
 
 import java.util.List;
@@ -41,5 +40,10 @@ public class DiscussPostService {
         discussPost.setTitle(sensitiveFilter.filter(discussPost.getTitle()));
 
         return discussPostMapper.insertDiscussPost(discussPost);
+    }
+
+
+    public DiscussPost findDiscussPostByid(int id){
+        return discussPostMapper.selectDiscussPostById(id);
     }
 }

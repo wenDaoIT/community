@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Data
 public class DiscussPost {
-    private Long id;
+    private int id;
 
     private Integer userId;
 

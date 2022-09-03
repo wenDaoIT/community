@@ -1,6 +1,11 @@
 package top.tom666.community.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +29,8 @@ import java.util.Map;
  */
 @Controller
 public class hello {
+    @Autowired
+    private TransactionTemplate transactionTemplate;
 
     @GetMapping("/hello")
     @ResponseBody
@@ -104,4 +111,18 @@ public class hello {
 
     }
 
+    /**
+     * @return spring事务测试
+     */
+    private Object transation(){
+        transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
+        transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        return transactionTemplate.execute(new TransactionCallback<Object>() {
+            @Override
+            public Object doInTransaction(TransactionStatus status) {
+                System.out.println("这里实现需要回滚的业务代码");
+                return null;
+            }
+        });
+    }
 }

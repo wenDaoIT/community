@@ -19,5 +19,14 @@ public interface Constant {
      */
     int ACTIVATION_FAIL = 2;
 
+    /**
+     * 实体类型 帖子 1
+     */
+    int ENTITY_TYPE_POST =1;
+    /**
+     * 实体类型 评论 2
+     */
+    int ENTITY_TYPE_COMMENT =2;
+
 
 }
