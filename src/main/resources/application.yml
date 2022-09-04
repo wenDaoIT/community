@@ -13,11 +13,11 @@ spring:
   mail:
     host: smtp.qq.com
     port: 465
-    username: 1362449059@qq.com
+    username: 123456
     protocol: smtps
 
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: top.tom666.community.entity
   configuration:
     use-generated-keys: true

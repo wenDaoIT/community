@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan({"top.tom666.community.dao"})
+@MapperScan({"top.tom666.community.dao","*.mapper","top.tom666.community.dao.CommentMapper"})
 public class CommunityApplication {
 
     public static void main(String[] args) {
