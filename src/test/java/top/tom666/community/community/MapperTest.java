@@ -12,9 +12,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import top.tom666.community.CommunityApplication;
 import top.tom666.community.dao.DiscussPostMapper;
 import top.tom666.community.dao.LoginTicketMapper;
+import top.tom666.community.dao.MessageMapper;
 import top.tom666.community.dao.UserMapper;
 import top.tom666.community.entity.DiscussPost;
 import top.tom666.community.entity.LoginTicket;
+import top.tom666.community.entity.Message;
 import top.tom666.community.entity.User;
 
 import java.util.Date;
@@ -34,6 +36,8 @@ public class MapperTest {
     private DiscussPostMapper discussPostMapper;
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+    @Autowired
+    private MessageMapper messageMapper;
     private static final Logger logger = LoggerFactory.getLogger(MapperTest.class);
 
     @Test
@@ -69,5 +73,13 @@ public class MapperTest {
         System.out.println(loginTicketMapper.insertLoginTicket(loginTicket));
     }
 
+    @Test
+    public void testMessageMapper(){
+//        List<Message> messageList = messageMapper.selectConversions(111,0,20);
+//        for (Message message : messageList){
+//            System.out.println(message);
+//        }
+        System.out.println(messageMapper.selectLetter("111_112",0,10));
 
+    }
 }
