@@ -146,7 +146,7 @@ public class UserService implements Constant {
         loginTicket.setUserId(user.getId());
         loginTicket.setTicket(CommunityUtils.generateUUID());
         loginTicket.setStatus(0);
-        loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 *5));
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 *5 * 10));
         loginTicketMapper.insertLoginTicket(loginTicket);
         objectMap.put("ticket",loginTicket.getTicket());
         return objectMap;
@@ -164,4 +164,11 @@ public class UserService implements Constant {
     public int updateHeader(int userId , String headerUrl){
         return userMapper.updateHeaderUrl(userId,headerUrl);
     }
+
+    public User findUserByName(String name){
+        return userMapper.selectByUsername(name);
+    }
+
+
+
 }
