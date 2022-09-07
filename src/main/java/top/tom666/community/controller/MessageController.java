@@ -89,7 +89,7 @@ public class MessageController {
         model.addAttribute("target",getLetterTarget(conversationId));
         //设置消息id为已读
         List<Integer> ids = getLetterIds(messageList);
-        if (ids != null){
+        if (!ids.isEmpty()){
             messageService.readMessage(ids);
         }
         return "/site/letter-detail";

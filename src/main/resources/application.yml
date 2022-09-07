@@ -29,7 +29,7 @@ server:
     context-path: /community
 logging:
   level:
-    root: debug
+    root: info
 ##  file:
 ##    name: community.log
 ##    path: classpath:logs
