@@ -1,10 +1,15 @@
 package top.tom666.community.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 /**
  * @author: liujisen
  * @date： 2022-08-23
  */
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = false)
 public class User {
     private Integer id;
     private String username;

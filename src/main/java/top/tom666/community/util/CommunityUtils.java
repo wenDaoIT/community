@@ -44,7 +44,7 @@ public class CommunityUtils {
     public static String getJSONString(int code,String msg){
         return getJSONString(code,msg,null);
     }
-    public static String getJOSNString(int code){
+    public static String getJSONString(int code){
         return getJSONString(code,null,null);
     }
 

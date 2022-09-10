@@ -123,7 +123,7 @@ public class MessageController {
         message.setCreateTime(new Date());
 
         messageService.addMessage(message);
-        return CommunityUtils.getJOSNString(0);
+        return CommunityUtils.getJSONString(0);
     }
 
     /**

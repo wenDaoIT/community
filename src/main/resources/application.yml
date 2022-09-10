@@ -15,6 +15,10 @@ spring:
     port: 465
     username: 123456
     protocol: smtps
+  redis:
+    database: 11
+    host: localhost
+    port: 6379
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
@@ -38,3 +42,9 @@ community:
   path:
     domain: http://localhost:8081
     upload: /Users/zhaoxiaohui/data/upload
+#swagger:
+#  base-package: 'top.tom666.community.controller'
+#  base-path: '/**'
+#  title: '仿牛客论坛的'
+#  description: "描述"
+#  version: "2.0"
