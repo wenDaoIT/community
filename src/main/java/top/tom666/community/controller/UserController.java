@@ -1,5 +1,6 @@
 package top.tom666.community.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import top.tom666.community.annotation.LoginRequired;
 import top.tom666.community.entity.User;
+import top.tom666.community.service.FollowServie;
+import top.tom666.community.service.LikeService;
 import top.tom666.community.service.UserService;
 import top.tom666.community.util.CommunityUtils;
+import top.tom666.community.util.Constant;
 import top.tom666.community.util.HostHolder;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +35,7 @@ import java.io.OutputStream;
 @Slf4j
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController implements Constant {
 
     @Autowired
     private UserService userService;
@@ -44,6 +49,11 @@ public class UserController {
 
     @Value("${community.path.domain}")
     private String domain;
+
+    @Resource
+    private LikeService likeService;
+    @Resource
+    private FollowServie followServie;
 
     @LoginRequired
     @GetMapping("/setting")
@@ -97,6 +107,31 @@ public class UserController {
         } catch (IOException e) {
             log.error("读取头像失败: " + e.getMessage());
         }
+    }
+    //个人主页
+    @GetMapping("/profile/{userId}")
+    public String getProfile(@PathVariable int userId, Model model){
+        User user = userService.findUserById(userId);
+        if (user == null){
+            throw new RuntimeException("该用户不存在");
+        }
+        model.addAttribute("user",user);
+        int likeCount = likeService.findUserLikeCount(userId);
+        model.addAttribute("likeCount",likeCount);
+
+        //关注数量
+        long followeeCount = followServie.findFolloweeCount(userId,ENTITY_TYPE_USER);
+        model.addAttribute("followeeCount",followeeCount);
+        //粉丝数量
+        long followerCount = followServie.findFolloweeCount(userId,ENTITY_TYPE_USER);
+        model.addAttribute("followerCount",followerCount);
+        //是否已经关注
+        boolean hasFollowed = false;
+        if (hostHolder != null){
+            hasFollowed = followServie.hasFollowed(hostHolder.getUser().getId(),ENTITY_TYPE_USER,userId);
+        }
+        model.addAttribute("hasFollowed",hasFollowed);
+        return "/site/profile";
     }
 
 

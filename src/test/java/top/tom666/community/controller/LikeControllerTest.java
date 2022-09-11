@@ -41,9 +41,9 @@ class LikeControllerTest {
 
     @Test
     void like() {
-        likeService.like(150,0,90);
-        long likeCount = likeService.selectLikeCount(0, 90);
-        System.out.println(likeCount);
-        likeController.like(0,90);
+        likeService.like(111,0,1,111);
+//        long likeCount = likeService.selectLikeCount(0, 90);
+//        System.out.println(likeCount);
+//        likeController.like(0,90);
     }
 }
