@@ -123,7 +123,7 @@ public class UserController implements Constant {
         long followeeCount = followServie.findFolloweeCount(userId,ENTITY_TYPE_USER);
         model.addAttribute("followeeCount",followeeCount);
         //粉丝数量
-        long followerCount = followServie.findFolloweeCount(userId,ENTITY_TYPE_USER);
+        long followerCount = followServie.fingFollowerCount(ENTITY_TYPE_USER,userId);
         model.addAttribute("followerCount",followerCount);
         //是否已经关注
         boolean hasFollowed = false;
