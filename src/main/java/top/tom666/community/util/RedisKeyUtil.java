@@ -13,7 +13,11 @@ public class RedisKeyUtil {
     private static final String PREFIX_FOLLEE = "follee";
     private static final String PREFIX_FOLLER = "foller";
 
+    private static final String PREFIX_KAPTCHA= "kaptcha";
 
+    private static final String PREFIX_TICKET = "ticket";
+
+    private static final String PREFIX_USER = "user";
 
     // 某个实体的赞
     // like:entity:entityType:entityId -> set(userId)
@@ -36,5 +40,16 @@ public class RedisKeyUtil {
     //某个实体拥有的粉丝
     public static String getPrefixFoller(int entityType,int entityId){
         return PREFIX_FOLLER +SPLIT+entityType +SPLIT +entityId;
+    }
+    //验证码
+    public static String getPrefixKaptcha(String UUID){
+        return PREFIX_KAPTCHA + SPLIT + UUID;
+    }
+
+    public static String getPrefixTicket(String ticket){
+        return PREFIX_TICKET +SPLIT+ticket;
+    }
+    public static String getPrefixUser(int userId){
+        return PREFIX_USER + SPLIT +userId;
     }
 }

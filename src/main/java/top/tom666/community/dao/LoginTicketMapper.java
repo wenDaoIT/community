@@ -13,6 +13,7 @@ import top.tom666.community.entity.LoginTicket;
  * @date： 2022-08-27
  */
 @Repository
+@Deprecated
 public interface LoginTicketMapper {
 
 

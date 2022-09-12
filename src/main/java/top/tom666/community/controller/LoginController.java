@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -16,7 +17,9 @@ import top.tom666.community.entity.User;
 import top.tom666.community.service.UserService;
 import top.tom666.community.util.CommunityUtils;
 import top.tom666.community.util.Constant;
+import top.tom666.community.util.RedisKeyUtil;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +28,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: liujisen
@@ -42,7 +47,8 @@ public class LoginController implements Constant {
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
-
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @GetMapping("/register")
     public String getRegisterPage(){
@@ -123,7 +129,17 @@ public class LoginController implements Constant {
         String text = producer.createText();
         BufferedImage image = producer.createImage(text);
 
-        httpSession.setAttribute("kaptcha",text);
+//        httpSession.setAttribute("kaptcha",text);
+        String kaptchaOwner = CommunityUtils.generateUUID();
+        Cookie cookie = new Cookie("kaptchaOwner",kaptchaOwner);
+        cookie.setMaxAge(60);
+        cookie.setPath(contextPath);
+        response.addCookie(cookie);
+
+        String redisKey = RedisKeyUtil.getPrefixKaptcha(kaptchaOwner);
+
+        redisTemplate.opsForValue().set(redisKey,text, 3,TimeUnit.MINUTES);
+
         response.setContentType("image/png");
         try {
             OutputStream outputStream = response.getOutputStream();
@@ -135,8 +151,15 @@ public class LoginController implements Constant {
 
     @PostMapping("/login")
     public String login(Model model,String username,
-                        String password,String code,HttpSession httpSession,HttpServletResponse response){
-            String kaptcha = (String) httpSession.getAttribute("kaptcha");
+                        String password,String code,HttpSession httpSession,
+                        HttpServletResponse response,
+                        @CookieValue("kaptchaOwner") String  kaptchaOwner){
+//            String kaptcha = (String) httpSession.getAttribute("kaptcha");
+        String kaptcha = null;
+        if (!StringUtils.isBlank(kaptchaOwner)){
+            String kaptcha1 = RedisKeyUtil.getPrefixKaptcha(kaptchaOwner);
+            kaptcha = (String) redisTemplate.opsForValue().get(kaptcha1);
+        }
 
         if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equals(code)){
             model.addAttribute("codeMsg","验证码错误");
