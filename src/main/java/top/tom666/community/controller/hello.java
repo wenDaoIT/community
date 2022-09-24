@@ -8,6 +8,7 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -125,4 +126,28 @@ public class hello {
             }
         });
     }
+
+
+    @RequestMapping("doCompute/{n1}/{n2}")
+    @ResponseBody
+    public String doCompute(@PathVariable  Integer n1,
+                            @PathVariable Integer n2){
+
+        Integer result=n1/n2;
+            return "Result is "+result;
+//        try{
+//            Integer result=n1/n2;
+//            return "Result is "+result;
+//        }catch(ArithmeticException e){
+//            return "exception is "+e.getMessage();
+//        }
+    }
+
+//    @ExceptionHandler(ArithmeticException.class)
+//    @ResponseBody
+//    public String doHandleArithmeticException(ArithmeticException e){
+//        e.printStackTrace();
+//        return "计算过程中出现了异常，异常信息为"+e.getMessage();
+//    }
+
 }
