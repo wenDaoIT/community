@@ -61,4 +61,11 @@ public class RedisKeyUtil {
     public static String getUVKey(String startDate, String endDate){
         return PREFIX_UV + SPLIT +startDate +SPLIT +endDate;
     }
+
+    public static String getDAUKey(String date){
+        return PREFIX_DAU +SPLIT+date;
+    }
+    public static String getDAUKey(String startDate,String endDate){
+        return PREFIX_DAU +SPLIT +startDate +SPLIT +endDate;
+    }
 }
