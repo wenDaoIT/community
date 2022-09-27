@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import top.tom666.community.entity.DiscussPost;
 import top.tom666.community.entity.Page;
 import top.tom666.community.entity.User;
@@ -28,12 +29,12 @@ public class HomeController {
     public DiscussPostService discussPostService;
 
     @GetMapping("/index")
-    public String getIndexPage(Model model, Page page){
+    public String getIndexPage(Model model, Page page , @RequestParam(name = "orderModel",defaultValue = "0") int orderModel){
         //方法调用之前，model会自动实例化page并注入，所以不用添加
         page.setCount(discussPostService.findDiscussPostRow(0));
-        page.setPath("/index");
+        page.setPath("/index?orderModel="+orderModel);
 
-        List<DiscussPost> postList= discussPostService.getDiscussPosts(0,page.getOffset(),page.getLimit());
+        List<DiscussPost> postList= discussPostService.getDiscussPosts(0,page.getOffset(),page.getLimit(),orderModel);
         List<Map<String, Object>> discussPosts = new ArrayList<>();
         if (!postList.isEmpty()) {
             for (DiscussPost post:postList){
@@ -45,6 +46,7 @@ public class HomeController {
             }
         }
         model.addAttribute("discussPosts",discussPosts);
+        model.addAttribute("orderModel",orderModel);
         return "index";
     }
 

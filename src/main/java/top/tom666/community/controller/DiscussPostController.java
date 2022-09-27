@@ -1,6 +1,7 @@
 package top.tom666.community.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,9 @@ import top.tom666.community.service.UserService;
 import top.tom666.community.util.CommunityUtils;
 import top.tom666.community.util.Constant;
 import top.tom666.community.util.HostHolder;
+import top.tom666.community.util.RedisKeyUtil;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,6 +43,8 @@ public class DiscussPostController implements Constant {
     private UserService userService;
     @Autowired
     private CommentService commentService;
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @PostMapping("/add")
     @ResponseBody
@@ -48,12 +53,18 @@ public class DiscussPostController implements Constant {
         if (user == null){
             return CommunityUtils.getJSONString(403,"你还没有登陆");
         }
-        final DiscussPost discussPost = new DiscussPost();
+        DiscussPost discussPost = new DiscussPost();
         discussPost.setUserId(user.getId());
         discussPost.setTitle(title);
         discussPost.setContent(content);
         discussPost.setCreateTime(new Date());
+        discussPost.setStatus(0);
+        discussPost.setType(0);
+        discussPost.setCommentCount(0);
         discussPostService.addDiscussPost(discussPost);
+        //计算分数
+        String redisKey = RedisKeyUtil.getPostScoreKey();
+        redisTemplate.opsForSet().add(redisKey,discussPost.getId());
         //报错将来统一处理
         return CommunityUtils.getJSONString(0,"发送成功");
     }

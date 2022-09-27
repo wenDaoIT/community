@@ -75,5 +75,10 @@ public class LikeService {
         Integer count = (Integer) redisTemplate.opsForValue().get(userLikeKey);
         return count == null ? 0:count.intValue();
     }
+    public int findEntityLikeCount(int entityId){
+        String entityLikeKey = RedisKeyUtil.getPrefixUserLike(entityId);
+        Integer count = (Integer) redisTemplate.opsForValue().get(entityLikeKey);
+        return count == null ? 0:count.intValue();
+    }
 
 }
