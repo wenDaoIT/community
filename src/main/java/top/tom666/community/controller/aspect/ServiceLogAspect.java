@@ -17,8 +17,8 @@ import java.util.Date;
  * @author: liujisen
  * @date： 2022-09-07
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 @Slf4j
 public class ServiceLogAspect {
 
